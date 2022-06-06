@@ -16,17 +16,10 @@ $("#userHub").hide();
 $("#irritantLog").hide();
 $("#scanResults").hide();
 $('#userNameTaken').hide();
+$('#signUpPage').hide();
 
 //linking pages
-//forward 
-//log in stub
-function login() {
-    $("#loginPage").hide();
-    $("#startPage").show();
-};
-$('#btnLogin').click(function () {
-    login();
-});
+//forward
 
 function changePage(button, pageStart, pageEnd) {
     $(button).click(function () {
@@ -40,7 +33,8 @@ changePage("#btnScannerPage", "#startPage", "#scannerScreen");
 changePage("#btnUserHub", "#startPage", "#userHub");
 changePage("#btnIrritantEdit", "#userHub", "#irritantLog");
 changePage("#btnScannerBack", "#scannerScreen", "#startPage");
-changePage("#btnUserBack", "#userHub", "#startPage")
+changePage("#btnUserBack", "#userHub", "#startPage");
+changePage('#btnSignup', "#loginPage", "#signUpPage");
 
 
 //login through authfication -- need to access connection between Auth0, restDB and Github 
@@ -148,6 +142,76 @@ $(function () {
 
 */
 
+//Log in through Restdb
+
+var users;
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "https://ldavis-b83d.restdb.io/rest/majorlogins",
+    "method": "GET",
+    "headers": {
+        "content-type": "application/json",
+        "x-apikey": api,
+        "cache-control": "no-cache"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    users = response;
+});
+
+//log in system
+function login(username, password) {
+    for (user of users){
+        if (user.email_address == username && user.Password == password){
+            console.log ("user yay")
+            //success stuff here
+            $("#loginPage").hide();
+            $("#startPage").show();
+            break;
+        }
+    }
+};
+$('#btnLogin').click(function () {
+    login(
+        $("#loginUsername")[0].value, $("#loginPassword")[0].value
+    );
+});
+
+//Sign up
+
+function addUser(item){
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://ldavis-b83d.restdb.io/rest/majorlogins",
+        "method": "POST",
+        "headers": {
+            "content-type": "application/json",
+            "x-apikey": api,
+            "cache-control": "no-cache"
+        },
+        "processData": false,
+        "data": JSON.stringify(item)
+    }
+    $.ajax(settings).done(function (response) {
+        console.log('user successfully added');
+        console.log(response);
+    });
+}
+
+
+$("#btnComplete").click(function() {
+    let user = {
+        Name: $("#signUpName")[0].value,
+        email_address: $("#signUpUsername")[0].value,
+        Password: $("#signUpPassword")[0].value
+    };
+    addUser(user);
+});
+changePage("#btnComplete", "#signUpPage", "#loginPage")
+
 //Scanner
 /*function cameraActivate() {
 
@@ -187,7 +251,7 @@ captureButton.addEventListener('click', function () {
 
 //edit irritants
 
-$(function () {
+/*$(function () {
 
 
     var errorMessages = {
@@ -207,7 +271,7 @@ $(function () {
 
     var successMessage = "Thank you!";
 
-   $.datetimepicker.setLocale('en');
+   // $.datetimepicker.setLocale('en');
 
     if (!Modernizr.inputtypes.datetime) {
         $("input[data-type=date]").datetimepicker({ timepicker: false, format: "Y/m/d" }).attr("type", "text");
@@ -454,4 +518,6 @@ $(function () {
         return false;
     });
 });
+*/
+
 changePage("#btnIrritantBack", "#irritantLog", "#userHub")

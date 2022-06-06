@@ -11,7 +11,6 @@ button {
     background-color: pink;
     padding: 5px;
     border-radius: 20px;
-    position: absolute;
     top: 50px;
     font-family: monospace;
 }
@@ -46,17 +45,17 @@ button {
 
 #btnLogin {
     left: 42%;
-    top: 340px;
+    top: 380px;
     position: absolute;
 }
 
-#userName {
+#loginUsername {
     top: 310px;
     left: 30%;
     position: absolute;
 }
 
-#password {
+#loginPassword {
     top: 340px;
     left: 30%;
     position: absolute;
@@ -198,4 +197,10 @@ button {
 #btn-submit{
     top:240px;
     position: absolute;
+}
+
+#signUpPage{
+    display:flex;
+    flex-direction: column;
+    height: 100%;
 }
