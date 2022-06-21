@@ -133,7 +133,8 @@ function irritantLog() {
         });
         document.getElementById("irritantList").innerHTML = "";
         for (irritant of thisUsersIrs){
-            document.getElementById("irritantList").innerHTML += "<p>" + irritant.Ingredient[0]["INCI name"] + ;
+            console.log(irritant);
+            document.getElementById("irritantList").innerHTML += "<p>" + irritant.Ingredient[0]["INCI-name"];
         }
     });
 }
