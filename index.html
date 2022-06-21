@@ -13,12 +13,16 @@
     <script type="text/javascript" src="https://unpkg.com/tesseract.js@v2.0.0-beta.1/dist/tesseract.min.js"></script>
     <!-- Auth0 lock script -->
     <script src="https://cdn.auth0.com/js/lock/11.16.0/lock.min.js"></script>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
     <div id="phoneScreen">
         <div id="loginPage">
-            <div id="welcomeRay">welcome Josh</div>
             <!--<p class="lead">Welcome<span class="nickname"></span></p>
             <img width="100px" alt="[picture not found]" class="avatar" style="display:none;">
             <button type="submit" background-color=pink class="btn btn-default btn-login">Sign In</button>
@@ -37,7 +41,7 @@
         </div>
         <div id="startPage">
             <div id="logoStart" class="logo"></div>
-            <text id="txtWelcome">Welcome back + user's name</text>
+            <text id="txtWelcome"></text>
             <button id="btnUserHub" class="button">User hub</button>
             <button id="btnScannerPage" class="button">Scanner</button>
         </div>
@@ -59,7 +63,7 @@
             <!--<div id="History">History list</div>-->
         </div>
         <div id="irritantLog">
-            <div id="btnIrritantBack" class ="back">Back</div>
+            <div id="btnIrritantBack" class="back">Back</div>
             <form role="form" id="irritants-form">
                 <div class="form-group">
                     <label id="userID">User:</label>
