@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
     font-family: 'DM Sans', sans-serif;
 }
 
@@ -16,7 +17,7 @@ button {
     padding: 6px;
     border-radius: 20px;
     top: 50px;
-    border-width:3px;
+    border-width: 3px;
     border-color: pink;
     border-style: solid;
 }
@@ -71,7 +72,16 @@ button {
     height: 150px;
 }
 
-#startPage{
+#startPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 18px;
+}
+
+#userHub {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -112,101 +122,83 @@ button {
 }
 
 #profileName {
-    left: 35%;
-    top: 25%;
-    position: absolute;
+    font-style: bold;
+    font-size: large;
 }
 
 #irritantList {
-    left: 25%;
-    top: 40%;
-    width: 200px;
-    height: 150px;
-    position: absolute;
     background-color: pink;
 }
 
-#btnIrritantEdit {
-    left: 35%;
-    top: 70%;
-    position: absolute;
-}
-
-#welcomeRay {
-    left: 35%;
-    top: 300px;
-    position: absolute;
-    background-color: pink;
-}
-
-.thank-you{
+.thank-you {
     font-size: 16px;
-    padding: 20px;	
-  }
+    padding: 20px;
+}
 
-  #irritants-form{
+#irritants-form {
     padding: 10px;
     left: 20%;
     position: absolute;
-    left:auto;
+    left: auto;
     top: 100px;
-  }
+}
 
-  #irritants-form input,  #irritants-form select{
+#irritants-form input,
+#irritants-form select {
     width: 300px;
     height: auto;
-  }
+}
 
-  label{
+label {
     display: block;
-  }
+}
 
 
-  .help-block{
-    margin-left:10px;
-  }
+.help-block {
+    margin-left: 10px;
+}
 
-  .progress{
+.progress {
     width: 300px;
-    height:10px;
-    border-radius:0px;
+    height: 10px;
+    border-radius: 0px;
     margin-top: 2px;
-  }
-
-  #btn-submit{
-      width: 300px;
-  }
-
-#User{
-    top:200px;
 }
 
-#userID{
-    top:180px;
+#btn-submit {
+    width: 300px;
 }
 
-#Ingredient{
+#User {
+    top: 200px;
+}
+
+#userID {
+    top: 180px;
+}
+
+#Ingredient {
     top: 220px;
 }
 
-#ingredientID{
-    top:200px;
+#ingredientID {
+    top: 200px;
 }
 
-#irritantLog{
+#irritantLog {
     width: 414px;
     height: 97vh;
     border: 1px solid black;
     position: absolute;
 }
 
-#btn-submit{
-    top:240px;
+#btn-submit {
+    top: 240px;
     position: absolute;
 }
 
-#signUpPage{
-    display:flex;
+#signUpPage {
+    display: flex;
     flex-direction: column;
     height: 100%;
 }
