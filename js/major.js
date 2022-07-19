@@ -4,9 +4,6 @@ var arrUsers = [''];
 var loggedInUser = "";
 var arrUserIrritants = "";
 var INCIoptions;
-//var db = new restdb("6237cbf0dced170e8c83a41d", options);
-//var db = new restdb(api);
-//var majorlogins = "6237b460f088b11e000072b0"; 
 
 $("#scannerScreen").hide();
 $("#startPage").hide();
@@ -17,8 +14,7 @@ $("#scanResults").hide();
 $('#userNameTaken').hide();
 $('#signUpPage').hide();
 
-//linking pages
-//forward
+//changing pages
 
 function changePage(button, pageStart, pageEnd) {
     $(button).click(function () {
@@ -37,7 +33,7 @@ changePage('#btnSignup', "#loginPage", "#signUpPage");
 changePage ("#btnIrritantSubmit", "#irritantLog", "#userHub");
 changePage("#btnIrritantBack", "#irritantLog", "#userHub")
 
-//Log in through Restdb
+//Log in and sign up through Restdb data base
 
 var users;
 var settings = {
@@ -146,27 +142,7 @@ $("#btnUserHub").click(function () {
 //Edit irritants
 
 // displaying the irritants in dropdown
-/*
-function enhancedBubbleSort (arrayToSort){
-    var swapped = true;
-    var pass = 0;
-    while (swapped = true){
-        swapped = false;
-        var comparison = 0;
-        while (comparison < arrayToSort.length - 1){
-            if (arrayToSort[comparison]< arrayToSort[comparison + 1]){
-                var tempItem = arrayToSort[comparison];
-                arrayToSort[comparison] = arrayToSort[comparison + 1];
-                arrayToSort[comparison + 1]= tempItem; 
-                swapped = true;
-            }
-            comparison = comparison + 1;
-        }
-        pass = pass + 1;
-    }
-    console.log(arrayToSort);
-}
-*/
+
 function getOptions() {
     var settings = {
         "async": true,
@@ -181,6 +157,7 @@ function getOptions() {
     }
     $.ajax(settings).done(function (response) {
         // Loop through the response array
+        response = INCISelectionSort(response)
         INCIoptions = response;
         for (Ingredient of response) {
             //enhancedBubbleSort(Ingredient["INCI-name"]);
@@ -195,13 +172,14 @@ $("#btnIrritantEdit").click(function () {
 
 //sorting and searching INCI Options array in order to locate desired irritatnt to log.
 
-function selectionSort (arrayToSort){
+function INCISelectionSort (arrayToSort){
     var pass = 0;
     while (pass < arrayToSort.length){
         var count = pass + 1;
         var minimum = pass;
-        while (count<= arrayToSort.length){
-            if (arrayToSort[count]<arrayToSort[minimum]){
+        while (count< arrayToSort.length){
+           //console.log( arrayToSort[count]);
+            if (arrayToSort[count].COSINGRefNo <arrayToSort[minimum].COSINGRefNo){
                 minimum = count;
             }
             count = count + 1;
@@ -211,8 +189,20 @@ function selectionSort (arrayToSort){
         arrayToSort[pass]= tempItem;
         pass ++;
     }
-    console.log ("sorted " + arrayToSort);
+    return arrayToSort;
 }
+function INCILinearSearch(arrayToSearch, seachTerm){
+    var count = 0
+    while (arrayToSearch.length>count){
+        if (arrayToSearch[count]["INCI-name"] == seachTerm){
+            console.log('found'+ seachTerm);
+            return arrayToSearch[count];
+        }
+        else{
+            count++;
+        };
+    };
+};
 
 //Adding the selected irritant to the array
 
@@ -231,39 +221,26 @@ function submitNewIrritant(jsondata) {
         "data": JSON.stringify(jsondata)
     }
     $.ajax(settings).done(function (response) {
-        console.log(response);
     });
 }
 
 $("#btnIrritantSubmit").click(function () {
-    selectionSort(INCIoptions);
-
-
-    // let addition = {
-    //     Profile: user,
-    //     Ingredient: $("#IngredientSelector")[0].value,
-    //     Reaction: true
-    // };
-    // submitNewIrritant(addition);
-    // console.log(addition);
+   
+   var foundIngredient = INCILinearSearch(INCIoptions,$("#IngredientSelector")[0].value);
+   if (foundIngredient == null){
+       console.log ("failed lol")
+        return;
+   }
+   let addition = {
+        Profile: user,
+        Ingredient: foundIngredient,
+        Reaction: true
+    };
+    submitNewIrritant(addition);
+    irritantLog();
 })
 
 //Scanner
-/*function cameraActivate() {
-
-    // activate camera through browser
-    var video = document.getElementById('camForScan');
-
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        // Not adding `{ audio: true }` since we only want video now
-        navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
-            video.srcObject = stream;
-            video.play();
-        });
-    };
-}
-cameraActivate();*/
-
 //ocr software (hella buggy)
 
 const player = document.getElementById('player')
@@ -291,12 +268,33 @@ captureButton.addEventListener('click', async function () {
     console.log(data.data.text);
     $("#snapshot").hide();
     data = "lanolin";
+    console.log (data);
 })
 
+//Scanner results
+
+/*take the data and create loop that asks how the data 
+currently data is hard coded to be lanolin as the ocr software isnt working good :(
+
+compate data to irritants applicatblw to the user. 
+*/
+
+function compareData (a, b){
+    if (a == b) {
+        alert("contains irritant")
+    }
+    else {
+        alert ("doesn't contain irritant")
+    }
+}
+
+("#btnCapture").click(function (){
+    compareData(data, /*user's irritants*/);
+})
 
 /* 
-Search and sort
+Search and sort (tick)
 scanner results
-fix submission of irritants so it stops breaking the database
+fix submission of irritants so it stops breaking the database (tick)
 minus irritants?
 */
