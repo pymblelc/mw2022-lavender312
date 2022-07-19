@@ -3,8 +3,7 @@ var userUrl = 'https://ldavis-b83d.restdb.io/rest/majorlogins';
 var arrUsers = [''];
 var loggedInUser = "";
 var arrUserIrritants = "";
-const AUTH0_CLIENT_ID = "XXK1MFFk3DwMidOeqZuKJvYxuXXEnDR0";
-const AUTH0_DOMAIN = "lavenmajor.au.auth0.com";
+var INCIoptions;
 //var db = new restdb("6237cbf0dced170e8c83a41d", options);
 //var db = new restdb(api);
 //var majorlogins = "6237b460f088b11e000072b0"; 
@@ -35,6 +34,8 @@ changePage("#btnIrritantEdit", "#userHub", "#irritantLog");
 changePage("#btnScannerBack", "#scannerScreen", "#startPage");
 changePage("#btnUserBack", "#userHub", "#startPage");
 changePage('#btnSignup', "#loginPage", "#signUpPage");
+changePage ("#btnIrritantSubmit", "#irritantLog", "#userHub");
+changePage("#btnIrritantBack", "#irritantLog", "#userHub")
 
 //Log in through Restdb
 
@@ -145,7 +146,27 @@ $("#btnUserHub").click(function () {
 //Edit irritants
 
 // displaying the irritants in dropdown
-
+/*
+function enhancedBubbleSort (arrayToSort){
+    var swapped = true;
+    var pass = 0;
+    while (swapped = true){
+        swapped = false;
+        var comparison = 0;
+        while (comparison < arrayToSort.length - 1){
+            if (arrayToSort[comparison]< arrayToSort[comparison + 1]){
+                var tempItem = arrayToSort[comparison];
+                arrayToSort[comparison] = arrayToSort[comparison + 1];
+                arrayToSort[comparison + 1]= tempItem; 
+                swapped = true;
+            }
+            comparison = comparison + 1;
+        }
+        pass = pass + 1;
+    }
+    console.log(arrayToSort);
+}
+*/
 function getOptions() {
     var settings = {
         "async": true,
@@ -160,7 +181,9 @@ function getOptions() {
     }
     $.ajax(settings).done(function (response) {
         // Loop through the response array
+        INCIoptions = response;
         for (Ingredient of response) {
+            //enhancedBubbleSort(Ingredient["INCI-name"]);
             document.getElementById("IngredientSelector").innerHTML += `<option value="${Ingredient["INCI-name"]}">${Ingredient["ChemIUPAC-Name-Description"]}</option>`;
         }
     });
@@ -170,8 +193,30 @@ $("#btnIrritantEdit").click(function () {
     getOptions();
 });
 
-function submitNewIrritant() {
-    var jsondata = { "field1": "xyz", "field2": "abc" };
+//sorting and searching INCI Options array in order to locate desired irritatnt to log.
+
+function selectionSort (arrayToSort){
+    var pass = 0;
+    while (pass < arrayToSort.length){
+        var count = pass + 1;
+        var minimum = pass;
+        while (count<= arrayToSort.length){
+            if (arrayToSort[count]<arrayToSort[minimum]){
+                minimum = count;
+            }
+            count = count + 1;
+        }
+        var tempItem = arrayToSort[minimum];
+        arrayToSort[minimum] = arrayToSort[pass];
+        arrayToSort[pass]= tempItem;
+        pass ++;
+    }
+    console.log ("sorted " + arrayToSort);
+}
+
+//Adding the selected irritant to the array
+
+function submitNewIrritant(jsondata) {
     var settings = {
         "async": true,
         "crossDomain": true,
@@ -191,13 +236,16 @@ function submitNewIrritant() {
 }
 
 $("#btnIrritantSubmit").click(function () {
-    let addition = {
-        Profile: user,
-        Ingredient: $("#IngredientSelector")[0].value,
-        Reaction: true
-    };
-    submitNewIrritant(addition);
-    console.log(addition);
+    selectionSort(INCIoptions);
+
+
+    // let addition = {
+    //     Profile: user,
+    //     Ingredient: $("#IngredientSelector")[0].value,
+    //     Reaction: true
+    // };
+    // submitNewIrritant(addition);
+    // console.log(addition);
 })
 
 //Scanner
@@ -222,23 +270,33 @@ const player = document.getElementById('player')
 const snapshotZone = document.getElementById('snapshot')
 const captureButton = document.getElementById('capture')
 const result = document.getElementById('result')
+$("#snapshot").hide();
+
 
 navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
     player.srcObject = stream
 })
 
-captureButton.addEventListener('click', function () {
+captureButton.addEventListener('click', async function () {
     const context = snapshot.getContext('2d')
     context.drawImage(player, 0, 0, snapshotZone.width, snapshotZone.height)
-    Tesseract.recognize(snapshotZone, 'eng', { logger: m => console.log(m) })
-        .then(({ data: { text } }) => {
-            result.value = text
-            console.log(text);
-            //var result = text
-        })
+    // Tesseract.recognize(snapshotZone, 'eng', { logger: m => console.log(m) })
+    //     .then(({ data: { text } }) => {
+    //         result.value = text
+    //         console.log(text);
+    //         //var result = text
+    //     })
+    let data = await Tesseract.recognize(snapshotZone, 'eng', { logger: m => console.log(m) });
+    console.log(data);
+    console.log(data.data.text);
     $("#snapshot").hide();
+    data = "lanolin";
 })
 
 
-
-changePage("#btnIrritantBack", "#irritantLog", "#userHub")
+/* 
+Search and sort
+scanner results
+fix submission of irritants so it stops breaking the database
+minus irritants?
+*/

@@ -34,8 +34,9 @@
             <div id="loginLogo" class="logo"></div>
         </div>
         <div id="signUpPage">
-            <input id="signUpName" placeholder="Name">
-            <input id="signUpUsername" placeholder="Username">
+            <div id="signUpLogo" class="logo"></div>
+            <input id="signUpName" placeholder="Profile Name">
+            <input id="signUpUsername" placeholder="Email">
             <input id="signUpPassword" placeholder="Password">
             <button id="btnComplete">Complete</button>
         </div>
@@ -47,10 +48,7 @@
         </div>
         <div id="scannerScreen">
             <div id="btnScannerBack" class="back">Back</div>
-            <!--<video id="camForScan" width="320px"></video>-->
-            <!--<div id="scanCam">Scan cam</div>-->
-            <!--<div id="btnScan">button for scan</div>-->
-            <video id="player" controls></video>
+            <video id="player" autoplay muted></video>
             <button id="capture">Capture</button>
             <canvas id="snapshot" width="200" height="150"></canvas>
             <textarea id="result" style="width:270px;height:100px;"></textarea>
@@ -60,21 +58,20 @@
             <div id="profileName">Profile Name</div>
             <div id="irritantList">list of irrants according to the user</div>
             <button id="btnIrritantEdit">Edit irritants</button>
-            <!--<div id="History">History list</div>-->
         </div>
         <div id="irritantLog">
             <div id="btnIrritantBack" class="back">Back</div>
             <label for="Ingredientselector">Select an ingredient:</label>
             <select name="IngredientSelector" id="IngredientSelector">
-                <option value="">Pick Something</option>
+                <option value="">Click to select</option>
             </select>
             <button id="btnIrritantSubmit" class="button">Submit</button>
         </div>
-    </div>
-    <div id="scanResults">
-        <div id="btnResultsBack" class="back">Back</div>
-        <text id="txtResults"></text>
-        <div id="results"></div>
+        <div id="scanResults">
+            <div id="btnResultsBack" class="back">Back</div>
+            <text id="txtResults"></text>
+            <div id="results"></div>
+        </div>
     </div>
     </div>
 </body>
