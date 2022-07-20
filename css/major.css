@@ -104,7 +104,7 @@ button {
     padding: 15px;
 }
 
-#scannerScreen{
+#scannerScreen {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -165,7 +165,7 @@ label {
 #irritantLog {
     display: flex;
     flex-direction: column;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     align-items: center;
     height: 70%;
     gap: 18px;
@@ -178,12 +178,12 @@ label {
 #signUpPage {
     display: flex;
     flex-direction: column;
-    justify-content:center;
+    justify-content: center;
     align-items: center;
     height: 70%;
     gap: 18px;
 }
 
-#IngredientSelector{
+#IngredientSelector {
     width: 80%;
 }

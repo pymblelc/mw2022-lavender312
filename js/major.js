@@ -2,7 +2,8 @@ var api = '6237cbf0dced170e8c83a41d';
 var userUrl = 'https://ldavis-b83d.restdb.io/rest/majorlogins';
 var arrUsers = [''];
 var loggedInUser = "";
-var arrUserIrritants = "";
+var scanned = "";
+var arrUserIrritants;
 var INCIoptions;
 
 $("#scannerScreen").hide();
@@ -22,16 +23,6 @@ function changePage(button, pageStart, pageEnd) {
         $(pageEnd).show();
     });
 };
-
-changePage("#btnLogBack", "#irritantLog", "#userHub");
-changePage("#btnScannerPage", "#startPage", "#scannerScreen");
-changePage("#btnUserHub", "#startPage", "#userHub");
-changePage("#btnIrritantEdit", "#userHub", "#irritantLog");
-changePage("#btnScannerBack", "#scannerScreen", "#startPage");
-changePage("#btnUserBack", "#userHub", "#startPage");
-changePage('#btnSignup', "#loginPage", "#signUpPage");
-changePage ("#btnIrritantSubmit", "#irritantLog", "#userHub");
-changePage("#btnIrritantBack", "#irritantLog", "#userHub")
 
 //Log in and sign up through Restdb data base
 
@@ -67,11 +58,6 @@ function login(username, password) {
         }
     }
 };
-$('#btnLogin').click(function () {
-    login(
-        $("#loginUsername")[0].value, $("#loginPassword")[0].value
-    );
-});
 
 //Sign up system
 function addUser(item) {
@@ -93,16 +79,6 @@ function addUser(item) {
         console.log(response);
     });
 }
-
-$("#btnComplete").click(function () {
-    let user = {
-        Name: $("#signUpName")[0].value,
-        email_address: $("#signUpUsername")[0].value,
-        Password: $("#signUpPassword")[0].value
-    };
-    addUser(user);
-});
-changePage("#btnComplete", "#signUpPage", "#loginPage")
 
 //user hub
 
@@ -129,15 +105,14 @@ function irritantLog() {
             }
         });
         document.getElementById("irritantList").innerHTML = "";
+        arrUserIrritants = thisUsersIrs;
         for (irritant of thisUsersIrs) {
             document.getElementById("irritantList").innerHTML += "<p>" + irritant.Ingredient[0]["INCI-name"] + "</p>";
+            // set arrUsersIrritants to the results of the irritant? then move the function to happen at sign in instead of when you enter the user hub (will fix the lag and will make it start up even if they havent gone into the user hub before using the scanner)
+
         }
     });
 }
-
-$("#btnUserHub").click(function () {
-    irritantLog();
-});
 
 //Edit irritants
 
@@ -166,39 +141,35 @@ function getOptions() {
     });
 }
 
-$("#btnIrritantEdit").click(function () {
-    getOptions();
-});
-
 //sorting and searching INCI Options array in order to locate desired irritatnt to log.
 
-function INCISelectionSort (arrayToSort){
+function INCISelectionSort(arrayToSort) {
     var pass = 0;
-    while (pass < arrayToSort.length){
+    while (pass < arrayToSort.length) {
         var count = pass + 1;
         var minimum = pass;
-        while (count< arrayToSort.length){
-           //console.log( arrayToSort[count]);
-            if (arrayToSort[count].COSINGRefNo <arrayToSort[minimum].COSINGRefNo){
+        while (count < arrayToSort.length) {
+            //console.log( arrayToSort[count]);
+            if (arrayToSort[count].COSINGRefNo < arrayToSort[minimum].COSINGRefNo) {
                 minimum = count;
             }
             count = count + 1;
         }
         var tempItem = arrayToSort[minimum];
         arrayToSort[minimum] = arrayToSort[pass];
-        arrayToSort[pass]= tempItem;
-        pass ++;
+        arrayToSort[pass] = tempItem;
+        pass++;
     }
     return arrayToSort;
 }
-function INCILinearSearch(arrayToSearch, seachTerm){
+function INCILinearSearch(arrayToSearch, seachTerm) {
     var count = 0
-    while (arrayToSearch.length>count){
-        if (arrayToSearch[count]["INCI-name"] == seachTerm){
-            console.log('found'+ seachTerm);
+    while (arrayToSearch.length > count) {
+        if (arrayToSearch[count]["INCI-name"] == seachTerm) {
+            console.log('found' + seachTerm);
             return arrayToSearch[count];
         }
-        else{
+        else {
             count++;
         };
     };
@@ -223,22 +194,6 @@ function submitNewIrritant(jsondata) {
     $.ajax(settings).done(function (response) {
     });
 }
-
-$("#btnIrritantSubmit").click(function () {
-   
-   var foundIngredient = INCILinearSearch(INCIoptions,$("#IngredientSelector")[0].value);
-   if (foundIngredient == null){
-       console.log ("failed lol")
-        return;
-   }
-   let addition = {
-        Profile: user,
-        Ingredient: foundIngredient,
-        Reaction: true
-    };
-    submitNewIrritant(addition);
-    irritantLog();
-})
 
 //Scanner
 //ocr software (hella buggy)
@@ -268,8 +223,57 @@ captureButton.addEventListener('click', async function () {
     console.log(data.data.text);
     $("#snapshot").hide();
     data = "lanolin";
-    console.log (data);
+    console.log(data);
+    scanned = data
+    console.log(scanned);
 })
+
+changePage("#btnLogBack", "#irritantLog", "#userHub");
+changePage("#btnScannerPage", "#startPage", "#scannerScreen");
+changePage("#btnUserHub", "#startPage", "#userHub");
+changePage("#btnIrritantEdit", "#userHub", "#irritantLog");
+changePage("#btnScannerBack", "#scannerScreen", "#startPage");
+changePage("#btnUserBack", "#userHub", "#startPage");
+changePage('#btnSignup', "#loginPage", "#signUpPage");
+changePage("#btnIrritantSubmit", "#irritantLog", "#userHub");
+changePage("#btnIrritantBack", "#irritantLog", "#userHub");
+changePage("#btnComplete", "#signUpPage", "#loginPage");
+
+$("#btnComplete").click(function () {
+    let user = {
+        Name: $("#signUpName")[0].value,
+        email_address: $("#signUpUsername")[0].value,
+        Password: $("#signUpPassword")[0].value
+    };
+    addUser(user);
+});
+
+$('#btnLogin').click(function () {
+    login(
+        $("#loginUsername")[0].value, $("#loginPassword")[0].value
+    );
+    irritantLog();
+    getOptions();
+});
+
+
+$("#btnIrritantSubmit").click(function () {
+
+    var foundIngredient = INCILinearSearch(INCIoptions, $("#IngredientSelector")[0].value);
+    if (foundIngredient == null) {
+        console.log("failed lol")
+        return;
+    }
+    let addition = {
+        Profile: user,
+        Ingredient: foundIngredient,
+        Reaction: true
+    };
+    submitNewIrritant(addition);
+    irritantLog();
+})
+
+
 
 //Scanner results
 
@@ -279,22 +283,23 @@ currently data is hard coded to be lanolin as the ocr software isnt working good
 compate data to irritants applicatblw to the user. 
 */
 
-function compareData (a, b){
-    if (a == b) {
-        alert("contains irritant")
-    }
-    else {
-        alert ("doesn't contain irritant")
+function compareData(a, b) {
+    for (item of b) {
+        console.log(item.Ingredient[0]);
+        if (item.Ingredient[0]["ChemIUPAC Name Description"].includes(a)) {
+            console.log("contains irritant");
+        }
+        else {
+            console.log("doesn't contain irritant");
+        }
     }
 }
 
-("#btnCapture").click(function (){
-    compareData(data, /*user's irritants*/);
+$("#capture").click(function () {
+    compareData(scanned, arrUserIrritants);
 })
 
 /* 
-Search and sort (tick)
 scanner results
-fix submission of irritants so it stops breaking the database (tick)
 minus irritants?
 */
