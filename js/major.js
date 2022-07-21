@@ -1,6 +1,6 @@
 var api = '6237cbf0dced170e8c83a41d';
 var userUrl = 'https://ldavis-b83d.restdb.io/rest/majorlogins';
-var arrUsers = [''];
+//var arrUsers = [''];
 var loggedInUser = "";
 var scanned = "";
 var arrUserIrritants;
@@ -14,6 +14,7 @@ $("#irritantLog").hide();
 $("#scanResults").hide();
 $('#userNameTaken').hide();
 $('#signUpPage').hide();
+$('#irritantRemove').hide();
 
 //changing pages
 
@@ -104,12 +105,14 @@ function irritantLog() {
                 return false;
             }
         });
-        document.getElementById("irritantList").innerHTML = "";
         arrUserIrritants = thisUsersIrs;
+        console.log(thisUsersIrs);
+        document.getElementById("irritantList").innerHTML = "";
+        document.getElementById("removeIngredientSelector").innerHTML = "Select an irritant to remove";
         for (irritant of thisUsersIrs) {
+            console.log(irritant);
             document.getElementById("irritantList").innerHTML += "<p>" + irritant.Ingredient[0]["INCI-name"] + "</p>";
-            // set arrUsersIrritants to the results of the irritant? then move the function to happen at sign in instead of when you enter the user hub (will fix the lag and will make it start up even if they havent gone into the user hub before using the scanner)
-
+            document.getElementById("removeIngredientSelector").innerHTML += `<option value="${irritant["_id"]}">${irritant.Ingredient[0]["INCI-name"]}</option>`;
         }
     });
 }
@@ -135,7 +138,6 @@ function getOptions() {
         response = INCISelectionSort(response)
         INCIoptions = response;
         for (Ingredient of response) {
-            //enhancedBubbleSort(Ingredient["INCI-name"]);
             document.getElementById("IngredientSelector").innerHTML += `<option value="${Ingredient["INCI-name"]}">${Ingredient["ChemIUPAC-Name-Description"]}</option>`;
         }
     });
@@ -162,6 +164,7 @@ function INCISelectionSort(arrayToSort) {
     }
     return arrayToSort;
 }
+
 function INCILinearSearch(arrayToSearch, seachTerm) {
     var count = 0
     while (arrayToSearch.length > count) {
@@ -195,6 +198,36 @@ function submitNewIrritant(jsondata) {
     });
 }
 
+//Removing an irritant from the array
+
+function deleteIrritant(irritantID) {
+    var settings = {
+        "async": true,
+        "crossDomain": true,
+        "url": "https://ldavis-b83d.restdb.io/rest/irritants/" + irritantID,
+        "method": "DELETE",
+        "headers": {
+            "content-type": "application/json",
+            "x-apikey": api,
+            "cache-control": "no-cache"
+        }
+    }
+    $.ajax(settings).done(function (response) {
+        console.log(response);
+    });
+}
+
+$("#btnRemoveIrritantSubmit").click(function () {
+    let irrId = document.getElementById("removeIngredientSelector").value
+    if (irrId == "") {
+        console.log("error");
+        return;
+    }
+    deleteIrritant(irrId);
+    irritantLog();
+
+});
+
 //Scanner
 //ocr software (hella buggy)
 
@@ -224,20 +257,24 @@ captureButton.addEventListener('click', async function () {
     $("#snapshot").hide();
     data = "lanolin";
     console.log(data);
-    scanned = data
+    scanned = data;
     console.log(scanned);
 })
+
+//excution of functions
 
 changePage("#btnLogBack", "#irritantLog", "#userHub");
 changePage("#btnScannerPage", "#startPage", "#scannerScreen");
 changePage("#btnUserHub", "#startPage", "#userHub");
-changePage("#btnIrritantEdit", "#userHub", "#irritantLog");
+changePage("#btnIrritantAdd", "#userHub", "#irritantLog");
 changePage("#btnScannerBack", "#scannerScreen", "#startPage");
 changePage("#btnUserBack", "#userHub", "#startPage");
 changePage('#btnSignup', "#loginPage", "#signUpPage");
 changePage("#btnIrritantSubmit", "#irritantLog", "#userHub");
 changePage("#btnIrritantBack", "#irritantLog", "#userHub");
 changePage("#btnComplete", "#signUpPage", "#loginPage");
+changePage("#btnIrritantRemove", "#userHub", "#irritantRemove");
+changePage("#btnRemoveIrritantBack", "#irritantRemove", "#userHub");
 
 $("#btnComplete").click(function () {
     let user = {
@@ -286,7 +323,7 @@ compate data to irritants applicatblw to the user.
 function compareData(a, b) {
     for (item of b) {
         console.log(item.Ingredient[0]);
-        if (item.Ingredient[0]["ChemIUPAC Name Description"].includes(a)) {
+        if (item.Ingredient["ChemIUPAC-Name-Description"].includes(a)) {
             console.log("contains irritant");
         }
         else {
@@ -294,6 +331,8 @@ function compareData(a, b) {
         }
     }
 }
+
+//${Ingredient["ChemIUPAC-Name-Description"]}
 
 $("#capture").click(function () {
     compareData(scanned, arrUserIrritants);
