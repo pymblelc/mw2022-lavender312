@@ -106,7 +106,7 @@ function irritantLog() {
             }
         });
         arrUserIrritants = thisUsersIrs;
-        console.log(thisUsersIrs);
+        console.log("asd", thisUsersIrs);
         document.getElementById("irritantList").innerHTML = "";
         document.getElementById("removeIngredientSelector").innerHTML = "Select an irritant to remove";
         for (irritant of thisUsersIrs) {
@@ -217,16 +217,7 @@ function deleteIrritant(irritantID) {
     });
 }
 
-$("#btnRemoveIrritantSubmit").click(function () {
-    let irrId = document.getElementById("removeIngredientSelector").value
-    if (irrId == "") {
-        console.log("error");
-        return;
-    }
-    deleteIrritant(irrId);
-    irritantLog();
 
-});
 
 //Scanner
 //ocr software (hella buggy)
@@ -264,6 +255,7 @@ captureButton.addEventListener('click', async function () {
 //excution of functions
 
 changePage("#btnLogBack", "#irritantLog", "#userHub");
+changePage("#signUpBack", "#signUpPage", "#loginPage");
 changePage("#btnScannerPage", "#startPage", "#scannerScreen");
 changePage("#btnUserHub", "#startPage", "#userHub");
 changePage("#btnIrritantAdd", "#userHub", "#irritantLog");
@@ -275,6 +267,7 @@ changePage("#btnIrritantBack", "#irritantLog", "#userHub");
 changePage("#btnComplete", "#signUpPage", "#loginPage");
 changePage("#btnIrritantRemove", "#userHub", "#irritantRemove");
 changePage("#btnRemoveIrritantBack", "#irritantRemove", "#userHub");
+changePage("#btnRemoveIrritantSubmit", "#irritantRemove", "#userHub");
 
 $("#btnComplete").click(function () {
     let user = {
@@ -310,24 +303,36 @@ $("#btnIrritantSubmit").click(function () {
     irritantLog();
 })
 
-
+$("#btnRemoveIrritantSubmit").click(function () {
+    let irrId = document.getElementById("removeIngredientSelector").value
+    if (irrId == "") {
+        console.log("error");
+        return;
+    }
+    deleteIrritant(irrId);
+    irritantLog();
+});
 
 //Scanner results
 
 /*take the data and create loop that asks how the data 
 currently data is hard coded to be lanolin as the ocr software isnt working good :(
 
-compate data to irritants applicatblw to the user. 
+compate data to irritants applicatble to the user. 
 */
 
 function compareData(a, b) {
+    if (b==null){
+        alert ("data loading");
+        return;
+    }
     for (item of b) {
         console.log(item.Ingredient[0]);
-        if (item.Ingredient["ChemIUPAC-Name-Description"].includes(a)) {
-            console.log("contains irritant");
+        if (item.Ingredient[0]["ChemIUPAC-Name-Description"].includes(a)) {
+            alert("contains irritant");
         }
         else {
-            console.log("doesn't contain irritant");
+            alert("doesn't contain irritant");
         }
     }
 }
@@ -335,6 +340,7 @@ function compareData(a, b) {
 //${Ingredient["ChemIUPAC-Name-Description"]}
 
 $("#capture").click(function () {
+    console.log ("here", arrUserIrritants);
     compareData(scanned, arrUserIrritants);
 })
 

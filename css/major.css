@@ -187,3 +187,12 @@ label {
 #IngredientSelector {
     width: 80%;
 }
+
+#irritantRemove{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 70%;
+    gap: 18px;
+}
