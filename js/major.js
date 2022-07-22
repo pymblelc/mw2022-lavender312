@@ -1,6 +1,5 @@
 var api = '6237cbf0dced170e8c83a41d';
 var userUrl = 'https://ldavis-b83d.restdb.io/rest/majorlogins';
-//var arrUsers = [''];
 var loggedInUser = "";
 var scanned = "";
 var arrUserIrritants;
@@ -268,6 +267,8 @@ changePage("#btnComplete", "#signUpPage", "#loginPage");
 changePage("#btnIrritantRemove", "#userHub", "#irritantRemove");
 changePage("#btnRemoveIrritantBack", "#irritantRemove", "#userHub");
 changePage("#btnRemoveIrritantSubmit", "#irritantRemove", "#userHub");
+changePage("#scanResultsDone", "#scanResults", "#scannerScreen");
+
 
 $("#btnComplete").click(function () {
     let user = {
@@ -315,12 +316,6 @@ $("#btnRemoveIrritantSubmit").click(function () {
 
 //Scanner results
 
-/*take the data and create loop that asks how the data 
-currently data is hard coded to be lanolin as the ocr software isnt working good :(
-
-compate data to irritants applicatble to the user. 
-*/
-
 function compareData(a, b) {
     if (b==null){
         alert ("data loading");
@@ -329,22 +324,20 @@ function compareData(a, b) {
     for (item of b) {
         console.log(item.Ingredient[0]);
         if (item.Ingredient[0]["ChemIUPAC-Name-Description"].includes(a)) {
-            alert("contains irritant");
+            $("#scannerScreen").hide();
+            $("#scanResults").show();
+            $("#doesntContainIrritant").hide();
         }
         else {
-            alert("doesn't contain irritant");
+            $("#scannerScreen").hide();
+            $("#scanResults").show();
+            $("#containsIrritant").hide();
         }
     }
 }
 
-//${Ingredient["ChemIUPAC-Name-Description"]}
 
 $("#capture").click(function () {
     console.log ("here", arrUserIrritants);
     compareData(scanned, arrUserIrritants);
 })
-
-/* 
-scanner results
-minus irritants?
-*/

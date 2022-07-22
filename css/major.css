@@ -196,3 +196,32 @@ label {
     height: 70%;
     gap: 18px;
 }
+
+#scanResults{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 18px;
+}
+
+#containsIrritant{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    gap: 18px;
+    background-color:pink;
+}
+
+#doesntContainIrritant{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    gap: 18px;    
+    background-color:pink;
+}
