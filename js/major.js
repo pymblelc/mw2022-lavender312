@@ -332,6 +332,7 @@ function compareData(a, b) {
             $("#scannerScreen").hide();
             $("#scanResults").show();
             $("#containsIrritant").hide();
+            $("#doesntContainIrritant").show();
         }
     }
 }
