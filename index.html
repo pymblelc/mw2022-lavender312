@@ -1,1 +1,93 @@
-<!-- Add your website root here -->
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/major.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js"
+        integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+    <script src="https://ldavis-b83d.restdb.io/rest/_jsapi.js"></script>
+    <meta HTTP-EQUIV="Content-Type" content="text/html; charset=utf-8" />
+    <script type="text/javascript" src="https://unpkg.com/tesseract.js@v2.0.0-beta.1/dist/tesseract.min.js"></script>
+    <!-- Auth0 lock script -->
+    <script src="https://cdn.auth0.com/js/lock/11.16.0/lock.min.js"></script>
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+    <div id="phoneScreen">
+        <div id="loginPage">
+            <!--<p class="lead">Welcome<span class="nickname"></span></p>
+            <img width="100px" alt="[picture not found]" class="avatar" style="display:none;">
+            <button type="submit" background-color=pink class="btn btn-default btn-login">Sign In</button>
+            <button type="submit" class="btn btn-default btn-logout" style="display:none;">Sign Out</button>-->
+            <input id="loginUsername" placeholder="Email">
+            <input id="loginPassword" placeholder="Password">
+            <button id="btnLogin">Log In</button>
+            <button id="btnSignup">Sign Up</button>
+            <div id="loginLogo" class="logo"></div>
+        </div>
+        <div id="signUpPage">
+            <div id="signUpLogo" class="logo"></div>
+            <div id="signUpBack" class="back">Back</div>
+            <input id="signUpName" placeholder="Profile Name">
+            <input id="signUpUsername" placeholder="Email">
+            <input id="signUpPassword" placeholder="Password">
+            <button id="btnComplete">Complete</button>
+        </div>
+        <div id="startPage">
+            <div id="logoStart" class="logo"></div>
+            <text id="txtWelcome"></text>
+            <button id="btnUserHub" class="button">User hub</button>
+            <button id="btnScannerPage" class="button">Scanner</button>
+        </div>
+        <div id="scannerScreen">
+            <div id="btnScannerBack" class="back">Back</div>
+            <video id="player" autoplay muted></video>
+            <button id="capture">Capture</button>
+            <canvas id="snapshot" width="200" height="150"></canvas>
+        </div>
+        <div id="userHub">
+            <div id="btnUserBack" class="back">Back</div>
+            <div id="profileName">Profile Name</div>
+            <div id="irritantList">Irritants loading...</div>
+            <button id="btnIrritantAdd">Add Irritant</button>
+            <button id="btnIrritantRemove">Remove Irrritant</button>
+        </div>
+        <div id="irritantLog">
+            <div id="btnIrritantBack" class="back">Back</div>
+            <label for="Ingredientselector">Select an ingredient:</label>
+            <select name="IngredientSelector" id="IngredientSelector">
+                <option value="">Click to select</option>
+            </select>
+            <button id="btnIrritantSubmit" class="button">Submit</button>
+        </div>
+        <div id=irritantRemove>
+            <div id="btnRemoveIrritantBack" class="back">Back</div>
+            <label for="removeIngredientSelector">Select an ingredient:</label>
+            <select name="removeIngredientSelector" id="removeIngredientSelector">
+                <option value="">Click to select</option>
+            </select>
+            <button id="btnRemoveIrritantSubmit" class="button">Submit</button>
+        </div>
+        <div id="scanResults">
+            <div id="containsIrritant">
+                <div id="containsIrritantSymbol"></div>
+                <div id="txtContainsIrritant">This product contains an irritant</div>
+            </div>
+            <div id="doesntContainIrritant">
+                <div id="doesntContainsIrritantSymbol"></div>
+                <div id="txtDoesntContainsIrritant">This product doesn't contain an irritant</div>
+            </div>
+            <button id="scanResultsDone">Done</button>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="js/major.js"></script>

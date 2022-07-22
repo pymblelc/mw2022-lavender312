@@ -1,0 +1,243 @@
+html,
+body {
+    font-family: 'DM Sans', sans-serif;
+}
+
+#phoneScreen {
+    width: 414px;
+    height: 97vh;
+    border: 1px solid black;
+    position: absolute;
+    font-family: 'DM Sans', sans-serif;
+}
+
+button {
+    cursor: pointer;
+    background-color: transparent;
+    padding: 6px;
+    border-radius: 20px;
+    top: 50px;
+    border-width: 3px;
+    border-color: pink;
+    border-style: solid;
+}
+
+.logo {
+    background-size: cover;
+    background-image: url("../images/revuivinate.png");
+    border-radius: 50%;
+}
+
+.back {
+    top: 10px;
+    left: 10px;
+    position: absolute;
+    cursor: pointer;
+}
+
+#loginLogo {
+    left: 24%;
+    top: 100px;
+    width: 200px;
+    height: 200px;
+    position: absolute;
+}
+
+
+#btnSignup {
+    left: 30%;
+    top: 380px;
+    position: absolute;
+}
+
+#btnLogin {
+    left: 50%;
+    top: 380px;
+    position: absolute;
+}
+
+#loginUsername {
+    top: 310px;
+    left: 30%;
+    position: absolute;
+}
+
+#loginPassword {
+    top: 340px;
+    left: 30%;
+    position: absolute;
+}
+
+#logoStart {
+    width: 150px;
+    height: 150px;
+}
+
+#startPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 18px;
+}
+
+#userHub {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 18px;
+}
+
+
+#txtWelcome {
+    font-size: large;
+}
+
+#btnUserHub {
+    padding: 15px;
+}
+
+#btnScannerPage {
+    padding: 15px;
+}
+
+#scannerScreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 18px;
+}
+
+#player {
+    width: 270px;
+    height: auto;
+}
+
+/* #result {
+    left: 15%;
+    top: 70%;
+    position: absolute;
+} */
+
+#capture {
+    padding: 5px;
+}
+
+#profileName {
+    font-style: bold;
+    font-size: large;
+}
+
+#irritantList {
+    background-color: pink;
+}
+
+.thank-you {
+    font-size: 16px;
+    padding: 20px;
+}
+
+label {
+    display: block;
+}
+
+
+.help-block {
+    margin-left: 10px;
+}
+
+.progress {
+    width: 300px;
+    height: 10px;
+    border-radius: 0px;
+    margin-top: 2px;
+}
+
+#btn-submit {
+    width: 300px;
+}
+
+#irritantLog {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 70%;
+    gap: 18px;
+}
+
+#btn-submit {
+    top: 240px;
+}
+
+#signUpPage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+    gap: 18px;
+}
+
+#IngredientSelector {
+    width: 80%;
+}
+
+#irritantRemove{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 70%;
+    gap: 18px;
+}
+
+#scanResults{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 18px;
+}
+
+#containsIrritant{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    gap: 18px;
+    background-color:pink;
+}
+
+#doesntContainIrritant{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 30%;
+    gap: 18px;
+    background-color:pink;
+}
+
+#doesntContainsIrritantSymbol{
+    background-size: cover;
+    background-image: url("../images/tick.png");
+    border-radius: 50%;
+    width:50px;
+    height:50px;
+}
+
+#containsIrritantSymbol{
+    background-size: cover;
+    background-image: url("../images/cross.png");
+    border-radius: 50%;
+    width:50px;
+    height:50px;
+}
